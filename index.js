@@ -11,7 +11,9 @@ app.get("/api/scrape/providers", async (req, res) => {
 
   const browser = await puppeteer.launch({
     headless: "new",
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
+  
   const page = await browser.newPage();
 
   await page.goto(`https://www.justwatch.com/fr/recherche?q=${encodeURIComponent(title)}`);
