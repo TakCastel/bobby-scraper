@@ -1,4 +1,3 @@
-# Utilise une image Node légère
 FROM node:20-slim
 
 # Installe Chromium et ses dépendances pour Puppeteer
