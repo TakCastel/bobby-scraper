@@ -1,9 +1,7 @@
-# Image Node légère avec Debian
 FROM node:20-slim
 
-# Installe Chromium + toutes ses dépendances nécessaires
-RUN apt-get update && \
-    apt-get install -y \
+# Installe toutes les dépendances nécessaires pour Chromium
+RUN apt-get update && apt-get install -y \
     wget \
     ca-certificates \
     fonts-liberation \
@@ -20,22 +18,29 @@ RUN apt-get update && \
     libxdamage1 \
     libxrandr2 \
     libxkbcommon0 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libxss1 \
+    libxtst6 \
     xdg-utils \
-    libu2f-udev && \
+    libu2f-udev \
+    libnss3 \
+    libgtk-3-0 \
+    --no-install-recommends && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Dossier de travail
 WORKDIR /app
 
-# Copie le package et installe les dépendances Node.js
+# Copie et installe les dépendances Node.js
 COPY package*.json ./
 RUN npm install
 
-# Copie le reste du projet
+# Copie le reste
 COPY . .
 
 # Port Railway
 EXPOSE 8080
 
-# Commande pour démarrer ton scraper
+# Commande de démarrage
 CMD ["node", "index.js"]
